@@ -48,7 +48,7 @@ defmodule Calc do
   end
 
   def eval([], stack) do
-    {x, y} = List.pop_at(stack, 0)
+    {x, _} = List.pop_at(stack, 0)
     x
   end
 
@@ -59,20 +59,20 @@ defmodule Calc do
     case op do
       "*" -> eval(tl(queue), [x2 * x1] ++ y2)
       "+" -> eval(tl(queue), [x2 + x1] ++ y2)
-      "/" -> eval(tl(queue), [x2 / x1] ++ y2)
+      "/" -> eval(tl(queue), [div(x2, x1)] ++ y2)
       "-" -> eval(tl(queue), [x2 - x1] ++ y2)
         end
   end
     
-  def move_ops(output, []) do
+  defp move_ops(output, []) do
     output
   end
 
-  def move_ops(output, ops) do
+  defp move_ops(output, ops) do
     move_ops(output ++ [hd(ops)], tl(ops))
   end
 
-  def sanitize(t) do
+  defp sanitize(t) do
     case Integer.parse(t) do
       :error -> t
       {number, _} -> number
@@ -83,14 +83,14 @@ defmodule Calc do
     Enum.map(list, &sanitize/1)
   end
 
-  def run() do
+  def main() do
     x = IO.gets("> ")
     x
     |> parse
     |> build_q([],[])
     |> eval([])
     |> IO.puts
-    run()
+    main()
   end
 
 end
