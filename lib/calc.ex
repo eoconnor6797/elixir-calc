@@ -9,7 +9,9 @@ defmodule Calc do
   end
 
   @precedence %{"+" => 1, "-" => 1, "*" => 2, "/" => "2",}
-
+  
+  # Build_q based on the Shunting-yard algorithm
+  # See README for link
   def build_q([], output, ops) do
     move_ops(output, ops)
   end
@@ -43,6 +45,7 @@ defmodule Calc do
     end
   end
 
+  #Evaluates Reverse Polish notation expressions
   def eval(queue, stack) when is_number(hd(queue)) do
     eval(tl(queue), [hd(queue)] ++ stack)
   end
@@ -63,15 +66,18 @@ defmodule Calc do
       "-" -> eval(tl(queue), [x2 - x1] ++ y2)
         end
   end
-    
+  
+  #Tested through build_q()
   defp move_ops(output, []) do
     output
   end
-
+  
+  #Test through build_q()
   defp move_ops(output, ops) do
     move_ops(output ++ [hd(ops)], tl(ops))
   end
-
+  
+  #Test through sanitizer()
   defp sanitize(t) do
     case Integer.parse(t) do
       :error -> t
@@ -83,6 +89,7 @@ defmodule Calc do
     Enum.map(list, &sanitize/1)
   end
 
+  #Not testable
   def main() do
     x = IO.gets("> ")
     x
