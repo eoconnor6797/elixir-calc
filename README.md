@@ -1,6 +1,9 @@
 # Calc
 
-**TODO: Add description**
+**Description**
+Four function calculator written in elixir.
+Parses input into reverse polish notation using the [Shunting-Yard Algorithm](https://en.wikipedia.org/wiki/Shunting-yard_algorithm)
+
 
 ## Installation
 
